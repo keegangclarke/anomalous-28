@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>28</title>
+
+  <!-- React and ReactDOM CDNs -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+  <!-- Babel for JSX compilation -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    // Original Component Code
+    const Anomalous28 = () => {
+      // Brand Colors from Directive
+      const colors = {
+        navy: '#0C2340',
+        cream: '#F5F5F0',
+        red: '#8A1538',
+      };
+
+      // Inline Styles
+      const styles = {
+        container: {
+          backgroundColor: colors.cream,
+          color: colors.navy,
+          fontFamily: "'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif",
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          padding: '80px 40px',
+          boxSizing: 'border-box',
+        },
+        title: {
+          fontFamily: "'Bodoni Moda', 'Times New Roman', serif",
+          fontWeight: 700,
+          fontSize: '70px',
+          margin: '0 0 60px 0',
+          textTransform: 'uppercase',
+          letterSpacing: '1px',
+          textAlign: 'center',
+        },
+        period: {
+          color: colors.red,
+        },
+        section: {
+          marginBottom: '80px',
+          textAlign: 'center',
+          width: '100%',
+          maxWidth: '700px',
+        },
+        sectionTitle: {
+          fontFamily: "'Bodoni Moda', 'Times New Roman', serif",
+          fontWeight: 500,
+          fontSize: '22px',
+          textTransform: 'uppercase',
+          borderBottom: `2px solid ${colors.navy}`,
+          display: 'inline-block',
+          paddingBottom: '8px',
+          marginBottom: '20px',
+        },
+        equation: {
+          fontFamily: "'IBM Plex Sans', monospace",
+          fontSize: '28px',
+          fontWeight: 600,
+          marginTop: '20px',
+        },
+        highlight: {
+          color: colors.red,
+        },
+        // Visual Containers
+        visualContainer: {
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: '40px',
+          marginTop: '30px',
+          flexWrap: 'wrap',
+        },
+        shapeColumn: {
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        },
+        dot: {
+          width: '12px',
+          height: '12px',
+          backgroundColor: colors.navy,
+          borderRadius: '50%',
+          margin: '3px',
+          display: 'inline-block',
+        },
+        row: {
+          display: 'flex',
+          justifyContent: 'center',
+          width: '100%',
+        },
+        label: {
+          marginTop: '15px',
+          fontSize: '14px',
+          fontWeight: 600,
+        },
+        arrow: {
+          fontSize: '32px',
+          color: colors.navy,
+          margin: '0 20px',
+        },
+        // Scale Specifics
+        scaleArm: {
+          borderBottom: `2px solid ${colors.navy}`,
+          padding: '0 0 5px 0',
+          width: '160px',
+          minWidth: '160px',
+          maxWidth: '160px',
+          textAlign: 'center',
+          fontWeight: 600,
+          display: 'flex',
+          justifyContent: 'center',
+        },
+        scaleWrapper: {
+          display: 'flex',
+          alignItems: 'flex-end',
+          justifyContent: 'center',
+          marginTop: '20px',
+          position: 'relative',
+          paddingTop: '20px',
+          width: '100%',
+          maxWidth: '680px',
+          margin: '20px auto 0',
+        },
+        panContainer: {
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          zIndex: 1,
+        },
+        beam: {
+          position: 'absolute',
+          bottom: '40px',
+          left: 0,
+          right: 0,
+          margin: '0 auto',
+          width: '340px',
+          height: '4px',
+          backgroundColor: colors.navy,
+          zIndex: 0,
+        },
+        // Atom Specifics
+        atomContainer: {
+          position: 'relative',
+          width: '140px',
+          height: '140px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        },
+        nucleus: {
+          width: '30px',
+          height: '30px',
+          backgroundColor: colors.red,
+          borderRadius: '50%',
+          zIndex: 10,
+        },
+        shell: {
+          position: 'absolute',
+          border: `2px solid ${colors.navy}`,
+          borderRadius: '50%',
+        },
+      };
+
+      // Helper to render dots for visualization
+      const renderDots = (count) => {
+        return Array(count).fill(0).map((_, i) => <div key={i} style={styles.dot}></div>);
+      };
+
+      // SVG Hexagon Renderer
+      const renderHexagon = () => {
+        // Configuration
+        const radius = 5;
+        const gapX = 18; // Horizontal distance between centers
+        const gapY = 16; // Vertical distance between rows
+        const rows = [3, 5, 6, 6, 5, 3];
+        const centerX = 100;
+        const startY = 25; // Centered somewhat in height
+
+        return (
+          <svg width="200" height="150" viewBox="0 0 200 150">
+            {rows.map((count, resultRowIndex) => {
+              // Calculate Y position
+              const y = startY + resultRowIndex * gapY;
+
+              // Dots in this row
+              return Array(count).fill(0).map((_, i) => {
+                // Calculate X position
+                // Width of row = (count - 1) * gapX
+                // Start X = CenterX - Width / 2
+                const rowWidth = (count - 1) * gapX;
+                const startX = centerX - rowWidth / 2;
+                const x = startX + i * gapX;
+
+                return <circle key={`${resultRowIndex}-${i}`} cx={x} cy={y} r={radius} fill={colors.navy} />;
+              });
+            })}
+          </svg>
+        );
+      };
+
+      return (
+        <div style={styles.container}>
+          {/* Font Imports via style tag */}
+          <style>
+            {`
+              @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500;6..96,700&family=IBM+Plex+Sans:wght@400;600&display=swap');
+              * { box-sizing: border-box; }
+            `}
+          </style>
+
+          {/* TITLE */}
+          <h1 style={styles.title}>
+            The Anomalous 28<span style={styles.period}>.</span>
+          </h1>
+
+          {/* I. PERFECT NUMBER */}
+          <div style={styles.section}>
+            <h2 style={styles.sectionTitle}>I. The Perfect Number</h2>
+            <p>Sum of proper divisors equals the number.</p>
+            <div style={styles.equation}>
+              1 + 2 + 4 + 7 + 14 = <span style={styles.highlight}>28</span>
+            </div>
+          </div>
+
+          {/* II. PRIME BALANCE */}
+          <div style={styles.section}>
+            <h2 style={styles.sectionTitle}>II. The Prime / Non-Prime Balance</h2>
+
+            <div style={styles.scaleWrapper}>
+              {/* The Beam */}
+              <div style={styles.beam}></div>
+
+              {/* Left Pan */}
+              <div style={styles.panContainer}>
+                <div style={{ fontWeight: 700, fontSize: '18px', marginBottom: '15px' }}>2, 3, 5, 7, 11</div>
+                <div style={styles.scaleArm}>First 5 Primes</div>
+              </div>
+
+              {/* Fulcrum */}
+              <div style={{
+                position: 'relative',
+                width: '60px',
+                height: '50px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'flex-end',
+                flexShrink: 0,
+              }}>
+                {/* The Triangle */}
+                <svg width="60" height="40">
+                  <polygon points="0,40 30,0 60,40" fill={colors.navy} />
+                </svg>
+                {/* The Anchor Point (28) */}
+                <div style={{
+                  position: 'absolute',
+                  top: '-20px',
+                  width: '50px',
+                  height: '50px',
+                  borderRadius: '50%',
+                  backgroundColor: colors.red,
+                  color: colors.cream,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  fontWeight: 'bold',
+                  fontSize: '20px',
+                  border: `3px solid ${colors.navy}`,
+                  zIndex: 10
+                }}>
+                  28
+                </div>
+              </div>
+
+              {/* Right Pan */}
+              <div style={styles.panContainer}>
+                <div style={{ fontWeight: 700, fontSize: '18px', marginBottom: '15px' }}>1, 4, 6, 8, 9</div>
+                <div style={styles.scaleArm}>First 5 Non-Primes</div>
+              </div>
+            </div>
+          </div>
+
+          {/* III. GEOMETRIC DUALITY */}
+          <div style={styles.section}>
+            <h2 style={styles.sectionTitle}>III. Geometric Duality</h2>
+            <div style={styles.visualContainer}>
+
+              {/* Triangular Number (28) */}
+              <div style={styles.shapeColumn}>
+                <div style={styles.row}>{renderDots(1)}</div>
+                <div style={styles.row}>{renderDots(2)}</div>
+                <div style={styles.row}>{renderDots(3)}</div>
+                <div style={styles.row}>{renderDots(4)}</div>
+                <div style={styles.row}>{renderDots(5)}</div>
+                <div style={styles.row}>{renderDots(6)}</div>
+                <div style={styles.row}>{renderDots(7)}</div>
+                <div style={styles.label}>Triangular (Sum 1 to 7)</div>
+              </div>
+
+              <div style={styles.arrow}>→</div>
+
+              {/* Hexagonal Layout (28) */}
+              <div style={styles.shapeColumn}>
+                {renderHexagon()}
+                <div style={styles.label}>Hexagonal (Total 28)</div>
+              </div>
+            </div>
+          </div>
+
+          {/* IV. CUBIC SUM */}
+          <div style={styles.section}>
+            <h2 style={styles.sectionTitle}>IV. The Cubic Sum</h2>
+            <p>Sum of the first two odd cubes.</p>
+            <div style={styles.equation}>
+              1<sup>3</sup> + 3<sup>3</sup> = 1 + 27 = <span style={styles.highlight}>28</span>
+            </div>
+          </div>
+
+          {/* V. ATOMIC STABILITY */}
+          <div style={styles.section}>
+            <h2 style={styles.sectionTitle}>V. The Atomic Stability</h2>
+            <p>A "Magic Number" in Nuclear Physics.</p>
+            <p>Nuclei with 28 nucleons have filled shells, creating exceptional stability.</p>
+
+            <div style={{ ...styles.visualContainer, marginTop: '30px' }}>
+              <div style={styles.atomContainer}>
+                {/* Shells */}
+                <div style={{ ...styles.shell, width: '60px', height: '60px', opacity: 0.5 }}></div>
+                <div style={{ ...styles.shell, width: '90px', height: '90px', opacity: 0.8 }}></div>
+                <div style={{ ...styles.shell, width: '120px', height: '120px', borderWidth: '3px' }}></div>
+                {/* Nucleus */}
+                <div style={styles.nucleus}></div>
+              </div>
+            </div>
+            <div style={styles.label}>Complete Nuclear Shell (28)</div>
+          </div>
+
+          {/* FOOTER ANCHOR */}
+          <div style={{ marginTop: '40px' }}>
+            <div style={{ width: '10px', height: '10px', backgroundColor: colors.red, borderRadius: '50%' }}></div>
+          </div>
+
+        </div>
+      );
+    };
+
+    // Mount the component
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<Anomalous28 />);
+  </script>
+</body>
+
+</html>
